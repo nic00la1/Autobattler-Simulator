@@ -1,0 +1,10 @@
+canvas {
+    border: 2px solid #333; /* Darker border for better contrast */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    display: block;
+    margin: 20px auto; /* Add spacing around the canvas */
+    background-color: #f4f4f4; /* Light background for better visibility */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    max-width: 100%; /* Make it responsive */
+    height: auto; /* Maintain aspect ratio */
+}

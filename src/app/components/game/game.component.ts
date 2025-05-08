@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Hero } from '../../classes/hero/Hero';
 import { Enemy } from '../../classes/enemy/Enemy';
 import { CommonModule } from '@angular/common';
 import { Loot } from '../../interfaces/Loot';
+import { BattleSimulationComponent } from "../battle-simulation/battle-simulation.component";
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, BattleSimulationComponent],
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent {
@@ -17,6 +18,10 @@ export class GameComponent {
   battleLog: string[] = [];
   lootItems: Loot[] = []; // Tablica do przechowywania zdobytego lootu
   gameOver: boolean = false;
+
+  @Output() playerAttack = new EventEmitter<{ damage: number; health: number }>();
+  @Output() enemyAttack = new EventEmitter<{ damage: number; health: number }>();
+
 
   constructor(private gameService: GameService) {
     this.player = this.gameService.getHero()!;
@@ -84,6 +89,7 @@ export class GameComponent {
   heroAttacks(): void {
     if (this.currentEnemy) {
       this.currentEnemy.health -= this.player.attack;
+      this.playerAttack.emit({ damage: this.player.attack, health: this.currentEnemy.health });
       this.addLogEntry(
         `${this.player.name} atakuje ${this.currentEnemy.name} za ${this.player.attack} obrażeń. ${this.currentEnemy.name} ma ${Math.max(this.currentEnemy.health, 0)} HP.`
       );
@@ -93,6 +99,7 @@ export class GameComponent {
   enemyAttacks(): void {
     if (this.currentEnemy) {
       this.player.health -= this.currentEnemy.attack;
+      this.enemyAttack.emit({ damage: this.currentEnemy.attack, health: this.player.health });
       this.addLogEntry(
         `${this.currentEnemy.name} atakuje ${this.player.name} za ${this.currentEnemy.attack} obrażeń. ${this.player.name} ma ${Math.max(this.player.health, 0)} HP.`
       );
@@ -160,4 +167,5 @@ export class GameComponent {
     this.gameOver = false;
     this.startNewBattle();
   }
+  
 }

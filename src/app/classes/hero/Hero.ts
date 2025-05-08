@@ -3,6 +3,7 @@ import { Equipment } from "../../interfaces/Equipment";
 export class Hero {
   name: string;
   health: number;
+  maxHealth: number = 100;
   attack: number;
   level: number;
   experience: number;
@@ -12,6 +13,7 @@ export class Hero {
   constructor(
     name: string,
     health: number,
+    maxHealth: number = 100,
     attack: number,
     level: number = 1,
     experience: number = 0,
@@ -19,6 +21,7 @@ export class Hero {
   ) {
     this.name = name;
     this.health = health;
+    this.maxHealth = maxHealth;
     this.attack = attack;
     this.level = level;
     this.experience = experience;

@@ -17,9 +17,9 @@ export class GameService {
     };
 
     if (characterClass === 'Warrior') {
-      this.hero = new Hero(name, 100, 15, 1); // Wojownik: więcej HP
+      this.hero = new Hero(name, 100, 15, 20); // Wojownik: więcej HP
     } else if (characterClass === 'Mage') {
-      this.hero = new Hero(name, 80, 20, 1); // Mag: większy atak
+      this.hero = new Hero(name, 80, 20, 30); // Mag: większy atak
     }
 
     if (this.hero) {
