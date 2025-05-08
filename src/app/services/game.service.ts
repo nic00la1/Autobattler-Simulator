@@ -45,7 +45,7 @@ export class GameService {
   getEnemies(): Enemy[] {
     return [
       new Enemy('Goblin', 50, 10, 20),
-      new Enemy('Orc', 80, 15, 30),
+      new Enemy('Ork', 80, 15, 30),
       new Enemy('Troll', 120, 20, 40),
     ];
   }

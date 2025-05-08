@@ -14,13 +14,13 @@
   </div>
 
   <div class="enemy-stats" *ngIf="currentEnemy">
-    <h2>Enemy: {{ currentEnemy.name }}</h2>
-    <p>Health: {{ currentEnemy.health }}</p>
-    <p>Attack: {{ currentEnemy.attack }}</p>
+    <h2>Wróg: {{ currentEnemy.name }}</h2>
+    <p>Zdrowie: {{ currentEnemy.health }}</p>
+    <p>Atak: {{ currentEnemy.attack }}</p>
   </div>
 
   <div class="battle-log">
-    <h3>Battle Log - Zapisy z gry</h3>
+    <h3>Log Walki</h3>
     <ul>
       <li *ngFor="let log of battleLog">{{ log }}</li>
     </ul>
@@ -29,7 +29,7 @@
   <canvas id="battleCanvas" width="800" height="400"></canvas>
 
   <div class="game-over" *ngIf="gameOver">
-    <h2>Game Over</h2>
-    <button (click)="restartGame()">Restart Game</button>
+    <h2>Koniec Gry</h2>
+    <button (click)="restartGame()">Zrestartuj Grę</button>
   </div>
 </div>

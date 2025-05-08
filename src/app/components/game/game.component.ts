@@ -14,7 +14,7 @@ export class GameComponent {
   player: Hero;
   currentEnemy: Enemy | null = null;
   battleLog: string[] = [];
-  gameOver: boolean = false; 
+  gameOver: boolean = false;
 
   constructor(private gameService: GameService) {
     this.player = this.gameService.getHero()!;
@@ -31,20 +31,20 @@ export class GameComponent {
   startNewBattle(): void {
     if (this.player.health <= 0) {
       this.gameOver = true;
-      this.addLogEntry('Game Over! Restart to play again.');
+      this.addLogEntry('Koniec gry! Uruchom ponownie, aby zagrać jeszcze raz.');
       return;
     }
 
     this.currentEnemy = this.getRandomEnemy();
     this.battleLog = [];
-    this.gameOver = false; // Reset gameOver to false when starting a new battle
-    this.addLogEntry(`${this.player.name} encounters a ${this.currentEnemy.name}!`);
+    this.gameOver = false; // Resetuj gameOver na false przy rozpoczęciu nowej walki
+    this.addLogEntry(`${this.player.name} napotyka ${this.currentEnemy.name}!`);
     this.simulateBattle();
   }
 
   getRandomEnemy(): Enemy {
     const enemies = this.gameService.getEnemies();
-    const weights = [60, 30, 10]; // Example weights for enemies
+    const weights = [60, 30, 10]; // Przykładowe wagi dla przeciwników
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
     const random = Math.random() * totalWeight;
 
@@ -72,7 +72,7 @@ export class GameComponent {
       if (this.currentEnemy && this.currentEnemy.health > 0) {
         this.enemyAttacks();
       }
-    }, 1000); // 1-second delay between actions
+    }, 1000); // 1-sekundowe opóźnienie między akcjami
   }
 
   isBattleOver(): boolean {
@@ -83,7 +83,7 @@ export class GameComponent {
     if (this.currentEnemy) {
       this.currentEnemy.health -= this.player.attack;
       this.addLogEntry(
-        `${this.player.name} attacks ${this.currentEnemy.name} for ${this.player.attack} damage. ${this.currentEnemy.name} has ${Math.max(this.currentEnemy.health, 0)} HP left.`
+        `${this.player.name} atakuje ${this.currentEnemy.name} za ${this.player.attack} obrażeń. ${this.currentEnemy.name} ma ${Math.max(this.currentEnemy.health, 0)} HP.`
       );
     }
   }
@@ -92,20 +92,20 @@ export class GameComponent {
     if (this.currentEnemy) {
       this.player.health -= this.currentEnemy.attack;
       this.addLogEntry(
-        `${this.currentEnemy.name} attacks ${this.player.name} for ${this.currentEnemy.attack} damage. ${this.player.name} has ${Math.max(this.player.health, 0)} HP left.`
+        `${this.currentEnemy.name} atakuje ${this.player.name} za ${this.currentEnemy.attack} obrażeń. ${this.player.name} ma ${Math.max(this.player.health, 0)} HP.`
       );
     }
   }
 
   endBattle(): void {
     if (this.player.health <= 0) {
-      this.addLogEntry(`${this.player.name} has been defeated! Game Over.`);
+      this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
       this.gameOver = true;
       return;
     }
 
     if (this.currentEnemy) {
-      this.addLogEntry(`${this.player.name} defeats ${this.currentEnemy.name}! Gains ${this.currentEnemy.expReward} EXP.`);
+      this.addLogEntry(`${this.player.name} pokonuje ${this.currentEnemy.name}! Zdobywa ${this.currentEnemy.expReward} EXP.`);
       this.player.experience += this.currentEnemy.expReward;
 
       if (this.player.experience >= this.player.expThreshold) {
@@ -119,10 +119,10 @@ export class GameComponent {
   levelUp(): void {
     this.player.level++;
     this.player.experience -= this.player.expThreshold;
-    this.player.expThreshold += 50; // Increase threshold for next level
-    this.player.health = 100; // Heal on level up
+    this.player.expThreshold += 50; // Zwiększ próg dla następnego poziomu
+    this.player.health = 100; // Ulecz na poziomie
     this.player.attack += 5;
-    this.addLogEntry(`${this.player.name} levels up to level ${this.player.level}!`);
+    this.addLogEntry(`${this.player.name} awansuje na poziom ${this.player.level}!`);
   }
 
   addLogEntry(entry: string): void {
