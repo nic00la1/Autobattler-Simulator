@@ -54,10 +54,14 @@
         <li *ngFor="let log of battleLog">{{ log }}</li>
       </ul>
     </div>
+  </div>
+</div>
 
-    <div class="game-over" *ngIf="gameOver">
-      <h2>💀 Koniec Gry</h2>
-      <button class="restart-button" (click)="restartGame()">🔄 Zrestartuj Grę</button>
-    </div>
+<!-- Modal for Game Over -->
+<div class="modal" *ngIf="gameOver">
+  <div class="modal-content sad-theme">
+    <h2 class="end-of-game">💔 Niestety, Przegrałeś...</h2>
+    <p>Twoja podróż dobiegła końca. Może następnym razem los będzie bardziej łaskawy.</p>
+    <button class="restart-button" (click)="restartGame()">🔄 Spróbuj Ponownie</button>
   </div>
 </div>
