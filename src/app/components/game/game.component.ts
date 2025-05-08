@@ -18,6 +18,8 @@ export class GameComponent {
   battleLog: string[] = [];
   lootItems: Loot[] = []; // Tablica do przechowywania zdobytego lootu
   gameOver: boolean = false;
+  battleCount: number = 0; // Licznik walk
+  maxBattles: number = 10; // Maksymalna liczba walk
 
   @Output() playerAttack = new EventEmitter<{ damage: number; health: number }>();
   @Output() enemyAttack = new EventEmitter<{ damage: number; health: number }>();
@@ -42,12 +44,20 @@ export class GameComponent {
       return;
     }
 
+    if (this.battleCount >= this.maxBattles) {
+      this.gameOver = true;
+      this.addLogEntry('Gratulacje! Ukończyłeś wszystkie 10 walk!');
+      return;
+    }
+
+    this.lootItems = []; // Usuń loot przed rozpoczęciem nowej rundy
     this.currentEnemy = this.getRandomEnemy();
     this.battleLog = [];
     this.gameOver = false; // Resetuj gameOver na false przy rozpoczęciu nowej walki
+    this.battleCount++; // Zwiększ licznik walk
     this.addLogEntry(`${this.player.name} napotyka ${this.currentEnemy.name}!`);
     this.simulateBattle();
-  }
+}
 
   getRandomEnemy(): Enemy {
     const enemies = this.gameService.getEnemies();
@@ -90,22 +100,33 @@ export class GameComponent {
     if (this.currentEnemy) {
       this.currentEnemy.health -= this.player.attack;
       this.playerAttack.emit({ damage: this.player.attack, health: this.currentEnemy.health });
-      this.addLogEntry(
-        `${this.player.name} atakuje ${this.currentEnemy.name} za ${this.player.attack} obrażeń. ${this.currentEnemy.name} ma ${Math.max(this.currentEnemy.health, 0)} HP.`
-      );
-    }
-  }
 
-  enemyAttacks(): void {
+      // Dodaj opóźnienie dla logu, aby zsynchronizować z animacją
+      setTimeout(() => {
+        if (this.currentEnemy) { // Sprawdź ponownie, czy currentEnemy nie jest null
+          this.addLogEntry(
+            `${this.player.name} atakuje ${this.currentEnemy.name} za ${this.player.attack} obrażeń. ${this.currentEnemy.name} ma ${Math.max(this.currentEnemy.health, 0)} HP.`
+          );
+        }
+      }, 500); // Opóźnienie 500 ms (dostosuj do czasu animacji)
+    }
+}
+
+enemyAttacks(): void {
     if (this.currentEnemy) {
       this.player.health -= this.currentEnemy.attack;
       this.enemyAttack.emit({ damage: this.currentEnemy.attack, health: this.player.health });
-      this.addLogEntry(
-        `${this.currentEnemy.name} atakuje ${this.player.name} za ${this.currentEnemy.attack} obrażeń. ${this.player.name} ma ${Math.max(this.player.health, 0)} HP.`
-      );
-    }
-  }
 
+      // Dodaj opóźnienie dla logu, aby zsynchronizować z animacją
+      setTimeout(() => {
+        if (this.currentEnemy) { // Sprawdź ponownie, czy currentEnemy nie jest null
+          this.addLogEntry(
+            `${this.currentEnemy.name} atakuje ${this.player.name} za ${this.currentEnemy.attack} obrażeń. ${this.player.name} ma ${Math.max(this.player.health, 0)} HP.`
+          );
+        }
+      }, 500); // Opóźnienie 500 ms (dostosuj do czasu animacji)
+    }
+}
   endBattle(): void {
     if (this.player.health <= 0) {
       this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
@@ -117,14 +138,13 @@ export class GameComponent {
       this.addLogEntry(`${this.player.name} pokonuje ${this.currentEnemy.name}! Zdobywa ${this.currentEnemy.expReward} EXP.`);
       this.player.experience += this.currentEnemy.expReward;
 
-      // Obsługa lootu
       if (this.currentEnemy.loot) {
         (Array.isArray(this.currentEnemy.loot) ? this.currentEnemy.loot : [this.currentEnemy.loot]).forEach((loot) => {
           if (Math.random() < loot.dropChance) {
             const item = loot.weapon || loot.armor || loot.accessory;
             this.addLogEntry(`Zdobyto przedmiot: ${item}!`);
             this.addLootToPlayer(loot);
-            this.lootItems.push(loot); // Dodajemy loot do wyświetlenia w UI
+            this.lootItems.push(loot);
           }
         });
       }
@@ -134,7 +154,9 @@ export class GameComponent {
       }
     }
 
-    this.startNewBattle();
+    if (!this.gameOver) {
+      this.startNewBattle();
+    }
   }
 
   addLootToPlayer(loot: Loot): void {
