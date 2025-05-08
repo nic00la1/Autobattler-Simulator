@@ -17,6 +17,7 @@ export class GameComponent {
   currentEnemy: Enemy | null = null;
   battleLog: string[] = [];
   lootItems: Loot[] = []; // Tablica do przechowywania zdobytego lootu
+  allLootItems: Loot[] = []; // Stores loot from all battles
   gameOver: boolean = false;
   battleCount: number = 0; // Licznik walk
   maxBattles: number = 10; // Maksymalna liczba walk
@@ -47,6 +48,8 @@ export class GameComponent {
     if (this.battleCount >= this.maxBattles) {
       this.gameOver = true;
       this.addLogEntry('Gratulacje! Ukończyłeś wszystkie 10 walk!');
+      this.addLogEntry('Podsumowanie lootu:');
+      this.addLogEntry(this.summarizeLoot());
       return;
     }
 
@@ -127,43 +130,42 @@ enemyAttacks(): void {
       }, 500); // Opóźnienie 500 ms (dostosuj do czasu animacji)
     }
 }
-  endBattle(): void {
-    if (this.player.health <= 0) {
-      // Delay showing the modal until the animation finishes
-      setTimeout(() => {
-        this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
-        this.gameOver = true;
-      }, 1000); // Adjust the delay to match the animation duration
-      return;
-    }
-
-    if (this.currentEnemy) {
-      this.addLogEntry(`${this.player.name} pokonuje ${this.currentEnemy.name}! Zdobywa ${this.currentEnemy.expReward} EXP.`);
-      this.player.experience += this.currentEnemy.expReward;
-
-      if (this.currentEnemy.loot) {
-        (Array.isArray(this.currentEnemy.loot) ? this.currentEnemy.loot : [this.currentEnemy.loot]).forEach((loot) => {
-          if (Math.random() < loot.dropChance) {
-            const item = loot.weapon || loot.armor || loot.accessory;
-            this.addLogEntry(`Zdobyto przedmiot: ${item}!`);
-            this.addLootToPlayer(loot);
-            this.lootItems.push(loot);
-          }
-        });
-      }
-
-      if (this.player.experience >= this.player.expThreshold) {
-        this.levelUp();
-      }
-    }
-
-    // Start a new battle after a delay to allow animations to finish
+endBattle(): void {
+  if (this.player.health <= 0) {
     setTimeout(() => {
-      if (!this.gameOver) {
-        this.startNewBattle();
-      }
-    }, 1000); // Adjust the delay to match the animation duration
+      this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
+      this.gameOver = true;
+    }, 1000);
+    return;
   }
+
+  if (this.currentEnemy) {
+    this.addLogEntry(`${this.player.name} pokonuje ${this.currentEnemy.name}! Zdobywa ${this.currentEnemy.expReward} EXP.`);
+    this.player.experience += this.currentEnemy.expReward;
+
+    if (this.currentEnemy.loot) {
+      (Array.isArray(this.currentEnemy.loot) ? this.currentEnemy.loot : [this.currentEnemy.loot]).forEach((loot) => {
+        if (Math.random() < loot.dropChance) {
+          const item = loot.weapon || loot.armor || loot.accessory;
+          this.addLogEntry(`Zdobyto przedmiot: ${item}!`);
+          this.addLootToPlayer(loot);
+          this.lootItems.push(loot);
+          this.allLootItems.push(loot); // Add loot to cumulative list
+        }
+      });
+    }
+
+    if (this.player.experience >= this.player.expThreshold) {
+      this.levelUp();
+    }
+  }
+
+  setTimeout(() => {
+    if (!this.gameOver) {
+      this.startNewBattle();
+    }
+  }, 1000);
+}
 
   addLootToPlayer(loot: Loot): void {
     if (loot.weapon) this.player.equipment.weapon = loot.weapon;
@@ -195,6 +197,19 @@ enemyAttacks(): void {
     this.battleCount = 0; // Resetowanie licznika walk
     this.gameOver = false;
     this.startNewBattle();
+}
+
+summarizeLoot(): string {
+  if (this.lootItems.length === 0) {
+    return 'Nie zdobyto żadnego lootu.';
+  }
+
+  return this.lootItems
+    .map((loot, index) => {
+      const item = loot.weapon || loot.armor || loot.accessory;
+      return `${index + 1}. ${item} (Szansa dropu: ${(loot.dropChance * 100).toFixed(2)}%)`;
+    })
+    .join('\n');
 }
   
 }

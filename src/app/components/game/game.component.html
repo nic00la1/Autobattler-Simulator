@@ -57,11 +57,25 @@
   </div>
 </div>
 
-<!-- Modal for Game Over -->
-<div class="modal" *ngIf="gameOver">
+<!-- Modal for Happy ending -->
+<div class="modal" *ngIf="gameOver && battleCount >= maxBattles">
+  <div class="modal-content happy-theme">
+    <h2 class="end-of-game">🎉 Gratulacje! Ukończyłeś wszystkie walki!</h2>
+    <p>Twoja podróż dobiegła końca. Oto podsumowanie zdobytego lootu:</p>
+    <ul>
+      <li *ngFor="let loot of allLootItems">
+        <strong>{{ loot.weapon || loot.armor || loot.accessory }}</strong>
+      </li>
+    </ul>
+    <button class="restart-button-happy" (click)="restartGame()">🔄 Rozpocznij Ponownie</button>
+  </div>
+</div>
+
+<!-- Modal for Game Over - Loosing -->
+<div class="modal" *ngIf="gameOver && battleCount < maxBattles">
   <div class="modal-content sad-theme">
     <h2 class="end-of-game">💔 Niestety, Przegrałeś...</h2>
     <p>Twoja podróż dobiegła końca. Może następnym razem los będzie bardziej łaskawy.</p>
-    <button class="restart-button" (click)="restartGame()">🔄 Spróbuj Ponownie</button>
+    <button class="restart-button-bad" (click)="restartGame()">🔄 Spróbuj Ponownie</button>
   </div>
 </div>

@@ -142,6 +142,45 @@ li {
   animation: fadeIn 1s ease-in-out;
 }
 
+/* Loot Summary Modal */
+.modal-content.happy-theme {
+  background-color: #fdf5e6; /* Jasny kremowy kolor */
+  color: #333; /* Ciemny tekst */
+  border: 2px solid #ffd700; /* Złote obramowanie */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.modal-content.happy-theme h2 {
+  color: #ffd700; /* Złoty kolor dla nagłówka */
+  font-size: 24px;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.modal-content.happy-theme p {
+  font-size: 18px;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.modal-content.happy-theme ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.modal-content.happy-theme li {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+  font-family: 'Cinzel', serif;
+}
+
+.modal-content.happy-theme li strong {
+  color: #8b4513; /* Brązowy kolor dla przedmiotów */
+}
+
 .end-of-game {
   color: #ff4d4d; /* Smutny czerwony kolor */
   font-size: 24px;
@@ -155,7 +194,7 @@ li {
   margin: 10px 0;
 }
 
-.restart-button {
+.restart-button-bad {
   background-color: #8b0000; /* Ciemnoczerwony */
   color: #fff;
   border: none;
@@ -166,7 +205,7 @@ li {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-.restart-button:hover {
+.restart-button-bad:hover {
   background-color: #a52a2a; /* Jaśniejszy czerwony */
 }
 
@@ -179,4 +218,20 @@ li {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.restart-button-happy {
+  background-color: #228b22; /* Zielony kolor */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: 'Cinzel', serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+}
+
+.restart-button-happy:hover {
+  background-color: #32cd32; /* Jaśniejszy zielony */
 }
