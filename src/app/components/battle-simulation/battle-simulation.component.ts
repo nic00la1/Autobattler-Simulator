@@ -33,6 +33,10 @@ export class BattleSimulationComponent implements OnChanges {
     let playerHealth = this.player.health;
     let enemyHealth = this.enemy.health;
 
+    // Store maximum health values
+    const maxPlayerHealth = this.player.health;
+    const maxEnemyHealth = this.enemy.health;
+
     const attackInterval = 1000; // 1-second delay between attacks
     let isPlayerTurn = true;
 
@@ -92,17 +96,21 @@ export class BattleSimulationComponent implements OnChanges {
       ctx.textAlign = 'center';
       ctx.fillText(this.enemy!.name, enemy.x + enemy.width / 2, enemy.y + enemy.height + 20);
 
+      // Ensure health values are not below zero
+      const clampedPlayerHealth = Math.max(playerHealth, 0);
+      const clampedEnemyHealth = Math.max(enemyHealth, 0);
+
       // Draw health bars
       ctx.fillStyle = 'green';
-      ctx.fillRect(player.x, player.y - 20, Math.max((playerHealth / this.player.health) * 100, 0), 10);
-      ctx.fillRect(enemy.x, enemy.y - 20, Math.max((enemyHealth / this.enemy!.health) * 100, 0), 10);
+      ctx.fillRect(player.x, player.y - 20, Math.max((clampedPlayerHealth / maxPlayerHealth) * 100, 0), 10);
+      ctx.fillRect(enemy.x, enemy.y - 20, Math.max((clampedEnemyHealth / maxEnemyHealth) * 100, 0), 10);
 
       // Draw health labels
       ctx.fillStyle = 'black';
       ctx.font = '14px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText(`HP: ${playerHealth}/${this.player.health}`, player.x + player.width / 2, player.y - 25);
-      ctx.fillText(`HP: ${enemyHealth}/${this.enemy!.health}`, enemy.x + enemy.width / 2, enemy.y - 25);
+      ctx.fillText(`HP: ${clampedPlayerHealth}/${maxPlayerHealth}`, player.x + player.width / 2, player.y - 25);
+      ctx.fillText(`HP: ${clampedEnemyHealth}/${maxEnemyHealth}`, enemy.x + enemy.width / 2, enemy.y - 25);
 
       // Draw confetti if battle is over
       if (playerHealth <= 0 || enemyHealth <= 0) {

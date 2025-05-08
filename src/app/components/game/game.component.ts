@@ -186,8 +186,9 @@ enemyAttacks(): void {
     this.player.experience = 0;
     this.player.expThreshold = 50;
     this.battleLog = [];
+    this.battleCount = 0; // Resetowanie licznika walk
     this.gameOver = false;
     this.startNewBattle();
-  }
+}
   
 }
