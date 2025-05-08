@@ -1,0 +1,17 @@
+<div class="character-creation">
+    <h2>Stwórz swoją postać</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Nazwa postaci:</label>
+        <input type="text" id="name" [(ngModel)]="characterName" name="name" required />
+      </div>
+      <div>
+        <label for="class">Klasa postaci:</label>
+        <select id="class" [(ngModel)]="characterClass" name="class" required>
+          <option value="Warrior">Wojownik</option>
+          <option value="Mage">Mag</option>
+        </select>
+      </div>
+      <button type="submit">Stwórz postać</button>
+    </form>
+  </div>

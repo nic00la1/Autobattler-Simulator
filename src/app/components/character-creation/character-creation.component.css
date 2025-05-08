@@ -1,0 +1,90 @@
+.character-creation {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 3px solid #5a3e2b; /* Darker border for a fantasy feel */
+    border-radius: 15px;
+    background: linear-gradient(135deg, #2e2e2e, #1a1a1a); /* Dark gradient background */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    font-family: 'Cinzel', serif; /* Fantasy-style font */
+    color: #f5f5f5; /* Light text for contrast */
+}
+
+.character-creation h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #f5d742; /* Golden color for a regal, battle-like feel */
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.character-creation form div {
+    margin-bottom: 20px;
+}
+
+.character-creation label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #f5d742; /* Golden color for labels */
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.character-creation input,
+.character-creation select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #5a3e2b;
+    border-radius: 8px;
+    background-color: #3a3a3a; /* Darker input background */
+    color: #f5f5f5;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-creation input:focus,
+.character-creation select:focus {
+    border-color: #f5d742; /* Highlight with gold on focus */
+    box-shadow: 0 0 8px rgba(245, 215, 66, 0.8);
+    outline: none;
+}
+
+.character-creation button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(135deg, #d9534f, #c9302c); /* Red gradient for a battle feel */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.character-creation button:hover {
+    background: linear-gradient(135deg, #c9302c, #a71d1a); /* Darker red on hover */
+    transform: translateY(-3px);
+}
+
+.character-creation button:active {
+    background: linear-gradient(135deg, #a71d1a, #7a0f0c); /* Even darker red on click */
+    transform: translateY(0);
+}
+
+.character-creation button:disabled {
+    background: #555555;
+    cursor: not-allowed;
+}
+
+.character-creation small {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #cccccc;
+    text-align: center;
+}
