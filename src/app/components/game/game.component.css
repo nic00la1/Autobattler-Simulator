@@ -1,0 +1,27 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: #f5f5f5;
+}
+
+.player-stats, .battle-log {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.battle-log ul {
+  list-style: none;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.battle-canvas canvas {
+  border: 2px solid #f5d742;
+  background: #1a1a1a;
+}

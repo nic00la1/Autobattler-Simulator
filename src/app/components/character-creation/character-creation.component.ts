@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-character-creation',
@@ -11,9 +13,19 @@ export class CharacterCreationComponent {
   characterName: string = '';
   characterClass: string = 'Warrior';
 
-  onSubmit() : void {
-    // Handle form submission logic here
-    console.log(`Postać stworzona: Imię = ${this.characterName}, Klasa = ${this.characterClass}`);
-    // You can add logic here to pass the character data to another component or service
+  private gameService = inject(GameService);
+  private router = inject(Router);
+
+  onSubmit(): void {
+    if (this.characterName.trim() === '') {
+      alert('Wpisz prawidłową nazwę postaci.');
+      return;
+    }
+
+    this.gameService.createCharacter(this.characterName, this.characterClass);
+    alert(`Postać ${this.characterName} stworzona jako ${this.characterClass}!`);
+
+    // Redirect to the game screen
+    this.router.navigate(['/game']);
   }
 }

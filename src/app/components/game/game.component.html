@@ -1,0 +1,27 @@
+<div class="game-container">
+  <div class="player-stats" *ngIf="player">
+    <h2>Gracz: {{ player.name }}</h2>
+    <p>Zdrowie: {{ player.health }}</p>
+    <p>Atak: {{ player.attack }}</p>
+    <p>Poziom: {{ player.level }}</p>
+    <p>Doświadczenie: {{ player.experience }}/{{ player.expThreshold }}</p>
+  </div>
+
+  <div class="enemy-stats" *ngIf="currentEnemy">
+    <h2>Enemy: {{ currentEnemy.name }}</h2>
+    <p>Health: {{ currentEnemy.health }}</p>
+    <p>Attack: {{ currentEnemy.attack }}</p>
+  </div>
+
+  <div class="battle-log">
+    <h3>Battle Log - Zapisy z gry</h3>
+    <ul>
+      <li *ngFor="let log of battleLog">{{ log }}</li>
+    </ul>
+  </div>
+
+  <div class="game-over" *ngIf="gameOver">
+    <h2>Game Over</h2>
+    <button (click)="restartGame()">Restart Game</button>
+  </div>
+</div>
