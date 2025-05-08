@@ -1,47 +1,54 @@
 <div class="game-container">
-  <div class="player-stats" *ngIf="player">
-    <h2>Gracz: {{ player.name }}</h2>
-    <p>Zdrowie: {{ player.health }}</p>
-    <p>Atak: {{ player.attack }}</p>
-    <p>Poziom: {{ player.level }}</p>
-    <p>Doświadczenie: {{ player.experience }}/{{ player.expThreshold }}</p>
-    <p>Ekwipunek:</p>
-    <ul>
-      <li *ngFor="let item of getEquipmentEntries()">
-        {{ item.key | titlecase }}: {{ item.value || 'Brak' }}
-      </li>
-    </ul>
+  <div class="main-canvas">
+    <!-- Main game area -->
+    <app-battle-simulation
+      [player]="player"
+      [enemy]="currentEnemy"
+    ></app-battle-simulation>
   </div>
 
-  <div class="enemy-stats" *ngIf="currentEnemy">
-    <h2>Wróg: {{ currentEnemy.name }}</h2>
-    <p>Zdrowie: {{ currentEnemy.health }}</p>
-    <p>Atak: {{ currentEnemy.attack }}</p>
+  <div class="side-panel">
+    <div class="player-stats" *ngIf="player">
+      <h3>👤 Gracz: {{ player.name }}</h3>
+      <p>❤️ Zdrowie: <strong>{{ player.health }}</strong></p>
+      <p>⚔️ Atak: <strong>{{ player.attack }}</strong></p>
+      <p>⭐ Poziom: <strong>{{ player.level }}</strong></p>
+      <p>🎯 Doświadczenie: <strong>{{ player.experience }}/{{ player.expThreshold }}</strong></p>
+      <h4>Ekwipunek:</h4>
+      <ul>
+        <li *ngFor="let item of getEquipmentEntries()">
+          <strong>{{ item.key | titlecase }}</strong>: {{ item.value || 'Brak' }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="enemy-stats" *ngIf="currentEnemy">
+      <h3>👹 Wróg: {{ currentEnemy.name }}</h3>
+      <p>❤️ Zdrowie: <strong>{{ currentEnemy.health }}</strong></p>
+      <p>⚔️ Atak: <strong>{{ currentEnemy.attack }}</strong></p>
+    </div>
   </div>
 
-  <div class="loot-display" *ngIf="lootItems.length > 0">
-    <h3>Zdobyty Loot</h3>
-    <ul>
-      <li *ngFor="let loot of lootItems">
-        {{ loot.weapon || loot.armor || loot.accessory }}
-      </li>
-    </ul>
-  </div>
+  <div class="bottom-panel">
+    <div class="loot-display" *ngIf="lootItems.length > 0">
+      <h4>🎁 Zdobyty Loot</h4>
+      <ul>
+        <li *ngFor="let loot of lootItems">
+          <strong>{{ loot.weapon || loot.armor || loot.accessory }}</strong>
+        </li>
+      </ul>
+    </div>
 
-  <div class="battle-log">
-    <h3>Log Walki</h3>
-    <ul>
-      <li *ngFor="let log of battleLog">{{ log }}</li>
-    </ul>
-  </div>
+    <div class="battle-log">
+      <h4>📜 Log Walki</h4>
+      <ul>
+        <li *ngFor="let log of battleLog">{{ log }}</li>
+      </ul>
+    </div>
 
-  <app-battle-simulation
-  [player]="player"
-  [enemy]="currentEnemy"
-></app-battle-simulation>
-
-  <div class="game-over" *ngIf="gameOver">
-    <h2>Koniec Gry</h2>
-    <button (click)="restartGame()">Zrestartuj Grę</button>
+    <div class="game-over" *ngIf="gameOver">
+      <h2>💀 Koniec Gry</h2>
+      <button class="restart-button" (click)="restartGame()">🔄 Zrestartuj Grę</button>
+    </div>
   </div>
 </div>
