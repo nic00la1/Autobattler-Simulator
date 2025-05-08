@@ -195,6 +195,7 @@ endBattle(): void {
     this.player.expThreshold = 50;
     this.battleLog = [];
     this.battleCount = 0; // Resetowanie licznika walk
+    this.allLootItems = [];
     this.gameOver = false;
     this.startNewBattle();
 }

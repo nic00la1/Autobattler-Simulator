@@ -9,6 +9,7 @@ export class Hero {
   experience: number;
   expThreshold: number;
   equipment : Equipment;
+  className: string; // Add this property
 
   constructor(
     name: string,
@@ -18,6 +19,7 @@ export class Hero {
     level: number = 1,
     experience: number = 0,
     expThreshold: number = 100,
+    className: string = "Warrior" // Default class name
   ) {
     this.name = name;
     this.health = health;
@@ -26,6 +28,7 @@ export class Hero {
     this.level = level;
     this.experience = experience;
     this.expThreshold = expThreshold;
+    this.className = className; // Initialize class name
     this.equipment = {
         weapon: null,
         armor: null,

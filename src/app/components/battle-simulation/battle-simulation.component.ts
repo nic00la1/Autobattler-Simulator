@@ -27,7 +27,14 @@ export class BattleSimulationComponent implements OnChanges {
     this.ctx = canvas.getContext('2d')!;
     const ctx = this.ctx;
 
-    const player = { x: 100, y: 200, width: 50, height: 50, color: 'blue' };
+    const player = { 
+      x: 100, 
+      y: 200, 
+      width: 50, 
+      height: 50, 
+      color: this.player.className === 'Warrior' ? 'blue' : 'purple' // Warrior: Blue, Mage: Purple
+    };
+    
     const enemy = { x: 600, y: 200, width: 50, height: 50, color: 'red' };
 
     let playerHealth = this.player.health;
@@ -85,6 +92,7 @@ export class BattleSimulationComponent implements OnChanges {
       ctx.font = '16px Arial';
       ctx.textAlign = 'center';
       ctx.fillText(this.player.name, player.x + player.width / 2, player.y + player.height + 20);
+      ctx.fillText(`(${this.player.className})`, player.x + player.width / 2, player.y + player.height + 40);
 
       // Draw enemy
       ctx.fillStyle = enemy.color;

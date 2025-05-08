@@ -10,25 +10,39 @@ export class GameService {
   hero: Hero | null = null;
 
   createCharacter(name: string, characterClass: string): void {
-    const defaultEquipment: Equipment = {
-      weapon: 'Żelazny Miecz',
-      armor: 'Skórzana Zbroja',
-      accessory: 'Drewniany Pierścień',
-    };
-
+    let classSpecificEquipment: Equipment;
+  
     if (characterClass === 'Warrior') {
-      this.hero = new Hero(name, 100, 15, 20); // Wojownik: więcej HP
+      classSpecificEquipment = {
+        weapon: 'Miecz Wojownika', // Warrior-specific weapon
+        armor: 'Zbroja Wojownika', // Warrior-specific armor
+        accessory: 'Pierścień Mocy', // Warrior-specific accessory
+      };
+      this.hero = new Hero(name, 100, 15, 20); // Warrior: More HP
     } else if (characterClass === 'Mage') {
-      this.hero = new Hero(name, 80, 20, 30); // Mag: większy atak
+      classSpecificEquipment = {
+        weapon: 'Różdżka Maga', // Mage-specific weapon
+        armor: 'Szata Maga', // Mage-specific armor
+        accessory: 'Amulet Magii', // Mage-specific accessory
+      };
+      this.hero = new Hero(name, 80, 20, 30); // Mage: Higher attack
+    } else {
+      // Default fallback
+      classSpecificEquipment = {
+        weapon: 'Żelazny Miecz',
+        armor: 'Skórzana Zbroja',
+        accessory: 'Drewniany Pierścień',
+      };
+      this.hero = new Hero(name, 90, 10, 25); // Balanced stats
     }
-
+  
     if (this.hero) {
-      this.hero.equipment = defaultEquipment; // Assign default equipment
+      this.hero.equipment = classSpecificEquipment; // Assign class-specific equipment
+      this.hero.className = characterClass; // Assign class name
     }
-
+  
     console.log('Postać stworzona:', this.hero);
   }
-
   getHero(): Hero | null {
     return this.hero;
   }
