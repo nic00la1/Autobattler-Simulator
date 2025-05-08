@@ -72,3 +72,28 @@ li {
 .restart-button:hover {
   background-color: #a52a2a; /* Lighter red on hover */
 }
+
+.battle-counter {
+  font-size: 20px;
+  color: #ffd700; /* Gold text for battle counter */
+  text-shadow: 1px 1px 2px #000; /* Subtle shadow for text */
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  transform: scale(1.2); /* Scale up the text */
+  text-align: center; /* Center the text */
+  padding: 10px; /* Add some padding around the text */
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 6px #ffd700; /* Shadow for depth */
+}
+
+.header {
+  background: url('/battle.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-family: 'Cinzel', serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
