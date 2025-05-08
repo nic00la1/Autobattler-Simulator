@@ -44,9 +44,22 @@ export class GameService {
 
   getEnemies(): Enemy[] {
     return [
-      new Enemy('Goblin', 50, 10, 20),
-      new Enemy('Ork', 80, 15, 30),
-      new Enemy('Troll', 120, 20, 40),
-    ];
+      new Enemy('Goblin', 50, 10, 20, { 
+        weapon: 'Sztylet', 
+        armor: 'Pancerz z Tkaniny', 
+        dropChance: 0.5 
+      }),
+      new Enemy('Ork', 80, 15, 30, { 
+        weapon: 'Topór', 
+        armor: 'Kolczuga', 
+        dropChance: 0.4 
+      }),
+      new Enemy('Troll', 120, 20, 40, { 
+        weapon: 'Maczuga', 
+        armor: 'Skórzana Zbroja', 
+        dropChance: 0.6,
+        accessory: "Amulet Siły", 
+      }),
+    ];   
   }
 }

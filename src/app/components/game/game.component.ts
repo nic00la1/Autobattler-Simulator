@@ -3,6 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Hero } from '../../classes/hero/Hero';
 import { Enemy } from '../../classes/enemy/Enemy';
 import { CommonModule } from '@angular/common';
+import { Loot } from '../../interfaces/Loot';
 
 @Component({
   selector: 'app-game',
@@ -14,6 +15,7 @@ export class GameComponent {
   player: Hero;
   currentEnemy: Enemy | null = null;
   battleLog: string[] = [];
+  lootItems: Loot[] = []; // Tablica do przechowywania zdobytego lootu
   gameOver: boolean = false;
 
   constructor(private gameService: GameService) {
@@ -108,12 +110,30 @@ export class GameComponent {
       this.addLogEntry(`${this.player.name} pokonuje ${this.currentEnemy.name}! Zdobywa ${this.currentEnemy.expReward} EXP.`);
       this.player.experience += this.currentEnemy.expReward;
 
+      // Obsługa lootu
+      if (this.currentEnemy.loot) {
+        (Array.isArray(this.currentEnemy.loot) ? this.currentEnemy.loot : [this.currentEnemy.loot]).forEach((loot) => {
+          if (Math.random() < loot.dropChance) {
+            const item = loot.weapon || loot.armor || loot.accessory;
+            this.addLogEntry(`Zdobyto przedmiot: ${item}!`);
+            this.addLootToPlayer(loot);
+            this.lootItems.push(loot); // Dodajemy loot do wyświetlenia w UI
+          }
+        });
+      }
+
       if (this.player.experience >= this.player.expThreshold) {
         this.levelUp();
       }
     }
 
     this.startNewBattle();
+  }
+
+  addLootToPlayer(loot: Loot): void {
+    if (loot.weapon) this.player.equipment.weapon = loot.weapon;
+    if (loot.armor) this.player.equipment.armor = loot.armor;
+    if (loot.accessory) this.player.equipment.accessory = loot.accessory;
   }
 
   levelUp(): void {

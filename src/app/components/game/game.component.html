@@ -19,6 +19,15 @@
     <p>Atak: {{ currentEnemy.attack }}</p>
   </div>
 
+  <div class="loot-display" *ngIf="lootItems.length > 0">
+    <h3>Zdobyty Loot</h3>
+    <ul>
+      <li *ngFor="let loot of lootItems">
+        {{ loot.weapon || loot.armor || loot.accessory }}
+      </li>
+    </ul>
+  </div>
+
   <div class="battle-log">
     <h3>Log Walki</h3>
     <ul>

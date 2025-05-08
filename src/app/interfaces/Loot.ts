@@ -1,5 +1,6 @@
 export interface Loot {
-  weapon: string | null;
-  armor: string | null;
-  dropChange: number;
+  weapon?: string;
+  armor?: string;
+  accessory?: string;
+  dropChance: number; // Chance to drop this loot (0 to 1)
 }
