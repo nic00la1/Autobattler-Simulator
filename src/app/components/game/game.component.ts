@@ -129,8 +129,11 @@ enemyAttacks(): void {
 }
   endBattle(): void {
     if (this.player.health <= 0) {
-      this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
-      this.gameOver = true;
+      // Delay showing the modal until the animation finishes
+      setTimeout(() => {
+        this.addLogEntry(`${this.player.name} został pokonany! Koniec gry.`);
+        this.gameOver = true;
+      }, 1000); // Adjust the delay to match the animation duration
       return;
     }
 
@@ -154,9 +157,12 @@ enemyAttacks(): void {
       }
     }
 
-    if (!this.gameOver) {
-      this.startNewBattle();
-    }
+    // Start a new battle after a delay to allow animations to finish
+    setTimeout(() => {
+      if (!this.gameOver) {
+        this.startNewBattle();
+      }
+    }, 1000); // Adjust the delay to match the animation duration
   }
 
   addLootToPlayer(loot: Loot): void {
