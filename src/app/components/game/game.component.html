@@ -5,6 +5,12 @@
     <p>Atak: {{ player.attack }}</p>
     <p>Poziom: {{ player.level }}</p>
     <p>Doświadczenie: {{ player.experience }}/{{ player.expThreshold }}</p>
+    <p>Ekwipunek:</p>
+    <ul>
+      <li *ngFor="let item of getEquipmentEntries()">
+        {{ item.key | titlecase }}: {{ item.value || 'Brak' }}
+      </li>
+    </ul>
   </div>
 
   <div class="enemy-stats" *ngIf="currentEnemy">
@@ -19,6 +25,8 @@
       <li *ngFor="let log of battleLog">{{ log }}</li>
     </ul>
   </div>
+
+  <canvas id="battleCanvas" width="800" height="400"></canvas>
 
   <div class="game-over" *ngIf="gameOver">
     <h2>Game Over</h2>

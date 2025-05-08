@@ -21,6 +21,13 @@ export class GameComponent {
     this.startNewBattle();
   }
 
+  getEquipmentEntries(): { key: string; value: string | null }[] {
+    return Object.entries(this.player.equipment).map(([key, value]) => ({
+      key,
+      value,
+    }));
+  }
+
   startNewBattle(): void {
     if (this.player.health <= 0) {
       this.gameOver = true;

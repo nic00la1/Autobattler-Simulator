@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Hero } from '../classes/hero/Hero';
 import { Enemy } from '../classes/enemy/Enemy';
+import { Equipment } from '../interfaces/Equipment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +10,22 @@ export class GameService {
   hero: Hero | null = null;
 
   createCharacter(name: string, characterClass: string): void {
+    const defaultEquipment: Equipment = {
+      weapon: 'Żelazny Miecz',
+      armor: 'Skórzana Zbroja',
+      accessory: 'Drewniany Pierścień',
+    };
+
     if (characterClass === 'Warrior') {
       this.hero = new Hero(name, 100, 15, 1); // Wojownik: więcej HP
     } else if (characterClass === 'Mage') {
       this.hero = new Hero(name, 80, 20, 1); // Mag: większy atak
     }
+
+    if (this.hero) {
+      this.hero.equipment = defaultEquipment; // Assign default equipment
+    }
+
     console.log('Postać stworzona:', this.hero);
   }
 
@@ -37,5 +49,4 @@ export class GameService {
       new Enemy('Troll', 120, 20, 40),
     ];
   }
-
 }
