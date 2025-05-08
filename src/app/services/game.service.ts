@@ -49,9 +49,17 @@ export class GameService {
 
   getRandomEnemy(): Enemy {
     const enemies = [
-      new Enemy('Goblin', 50, 10, 20),
-      new Enemy('Orc', 80, 15, 30),
-      new Enemy('Troll', 120, 20, 40),
+      new Enemy('Goblin', 50, 10, 20, { 
+        weapon: 'Sztylet', 
+        armor: 'Pancerz z Tkaniny', 
+        dropChance: 0.5 
+      }, 'green'),
+      new Enemy('Orc', 80, 15, 30, { 
+        weapon: 'Topór', 
+        armor: 'Kolczuga', 
+        dropChance: 0.4 
+      }, 'red'),
+      new Enemy('Troll', 120, 20, 40, null, 'gray'),
     ];
     return enemies[Math.floor(Math.random() * enemies.length)];
   }
@@ -61,19 +69,21 @@ export class GameService {
       new Enemy('Goblin', 50, 10, 20, { 
         weapon: 'Sztylet', 
         armor: 'Pancerz z Tkaniny', 
+        accessory: 'Pierścień Zwinności', // Dodano akcesorium
         dropChance: 0.5 
-      }),
+      }, 'green'),
       new Enemy('Ork', 80, 15, 30, { 
         weapon: 'Topór', 
         armor: 'Kolczuga', 
+        accessory: 'Naszyjnik Furii', // Dodano akcesorium
         dropChance: 0.4 
-      }),
+      }, 'red'),
       new Enemy('Troll', 120, 20, 40, { 
         weapon: 'Maczuga', 
         armor: 'Skórzana Zbroja', 
-        dropChance: 0.6,
-        accessory: "Amulet Siły", 
-      }),
+        accessory: 'Amulet Siły', // Dodano akcesorium
+        dropChance: 0.6 
+      }, 'orange'),
     ];   
   }
 }

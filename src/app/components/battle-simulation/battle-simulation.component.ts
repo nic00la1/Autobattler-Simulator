@@ -35,7 +35,9 @@ export class BattleSimulationComponent implements OnChanges {
       color: this.player.className === 'Warrior' ? 'blue' : 'purple' // Warrior: Blue, Mage: Purple
     };
     
-    const enemy = { x: 600, y: 200, width: 50, height: 50, color: 'red' };
+    const enemy = { x: 600, y: 200, width: 50, height: 50, color: this.enemy.color || 'black'};
+
+   
 
     let playerHealth = this.player.health;
     let enemyHealth = this.enemy.health;
@@ -58,6 +60,7 @@ export class BattleSimulationComponent implements OnChanges {
         });
       }
     };
+    
 
     const drawConfetti = () => {
       confetti.forEach((piece) => {
@@ -103,7 +106,23 @@ export class BattleSimulationComponent implements OnChanges {
       ctx.font = '16px Arial';
       ctx.textAlign = 'center';
       ctx.fillText(this.enemy!.name, enemy.x + enemy.width / 2, enemy.y + enemy.height + 20);
+ // filepath: c:\Autobattler-Simulator\Autobattler-Simulator\src\app\components\battle-simulation\battle-simulation.component.ts
+// Wyświetlanie akcesoriów gracza
+ctx.fillText(
+  `Akcesorium: ${this.player.equipment.accessory || 'Brak Akcesoriów'}`,
+  player.x + player.width / 2,
+  player.y + player.height + 60
+);
 
+// Wyświetlanie akcesoriów przeciwnika
+if (this.enemy?.loot?.accessory) {
+  ctx.fillText(
+    `Akcesorium: ${this.enemy.loot.accessory}`,
+    enemy.x + enemy.width / 2,
+    enemy.y + enemy.height + 60
+  );
+}
+      
       // Ensure health values are not below zero
       const clampedPlayerHealth = Math.max(playerHealth, 0);
       const clampedEnemyHealth = Math.max(enemyHealth, 0);
@@ -152,13 +171,20 @@ export class BattleSimulationComponent implements OnChanges {
           // Player attacks
           const originalX = player.x;
           const attackX = player.x + 50;
-
+    
+          // Apply accessory effects for the player
+          const playerAccessoryEffect = this.getAccessoryEffect(this.player.equipment.accessory || 'Brak Akcesoriów');
+          let playerAttack = this.player.attack;
+          if (playerAccessoryEffect.type === 'attack') {
+            playerAttack += playerAccessoryEffect.value; // Boost attack
+          }
+    
           // Animate player attack
           const attackAnimation = setInterval(() => {
             player.x += 5;
             if (player.x >= attackX) {
               clearInterval(attackAnimation);
-              enemyHealth = Math.max(enemyHealth - this.player.attack, 0); // Apply damage
+              enemyHealth = Math.max(enemyHealth - playerAttack, 0); // Apply damage
               player.x = originalX; // Reset position
               isPlayerTurn = false;
               setTimeout(simulateBattle, attackInterval);
@@ -168,13 +194,20 @@ export class BattleSimulationComponent implements OnChanges {
           // Enemy attacks
           const originalX = enemy.x;
           const attackX = enemy.x - 50;
-
+    
+          // Apply accessory effects for the enemy
+          const enemyAccessoryEffect = this.getAccessoryEffect(this.enemy?.loot?.accessory || 'Brak Akcesoriów');
+          let enemyAttack = this.enemy!.attack;
+          if (enemyAccessoryEffect.type === 'attack') {
+            enemyAttack += enemyAccessoryEffect.value; // Boost attack
+          }
+    
           // Animate enemy attack
           const attackAnimation = setInterval(() => {
             enemy.x -= 5;
             if (enemy.x <= attackX) {
               clearInterval(attackAnimation);
-              playerHealth = Math.max(playerHealth - this.enemy!.attack, 0); // Apply damage
+              playerHealth = Math.max(playerHealth - enemyAttack, 0); // Apply damage
               enemy.x = originalX; // Reset position
               isPlayerTurn = true;
               setTimeout(simulateBattle, attackInterval);
@@ -189,5 +222,18 @@ export class BattleSimulationComponent implements OnChanges {
 
     animate();
     simulateBattle();
+  }
+
+  getAccessoryEffect(accessory: string): { type: string; value: number } {
+    switch (accessory) {
+      case 'Pierścień Zwinności':
+        return { type: 'evasion', value: 10 }; // Increases evasion by 10%
+      case 'Naszyjnik Furii':
+        return { type: 'attack', value: 5 }; // Increases attack by 5
+      case 'Amulet Siły':
+        return { type: 'health', value: 20 }; // Increases health by 20
+      default:
+        return { type: 'none', value: 0 }; // No effect
+    }
   }
 }
